@@ -1,2 +1,2 @@
-/home/pi/hw/pro/BA/battery.ko
-/home/pi/hw/pro/BA/battery.o
+/home/pi/syshw/BA/battery.ko
+/home/pi/syshw/BA/battery.o

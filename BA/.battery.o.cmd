@@ -1,8 +1,8 @@
-cmd_/home/pi/hw/pro/BA/battery.o := gcc -Wp,-MD,/home/pi/hw/pro/BA/.battery.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/4.8/include -I./arch/arm/include -Iarch/arm/include/generated  -Iinclude -I./arch/arm/include/uapi -Iarch/arm/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-bcm2708/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp -funwind-tables -marm -D__LINUX_ARM_ARCH__=6 -march=armv6 -mtune=arm1136j-s -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(battery)"  -D"KBUILD_MODNAME=KBUILD_STR(battery)" -c -o /home/pi/hw/pro/BA/.tmp_battery.o /home/pi/hw/pro/BA/battery.c
+cmd_/home/pi/syshw/BA/battery.o := gcc -Wp,-MD,/home/pi/syshw/BA/.battery.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/4.8/include -I./arch/arm/include -Iarch/arm/include/generated  -Iinclude -I./arch/arm/include/uapi -Iarch/arm/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-bcm2708/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp -funwind-tables -marm -D__LINUX_ARM_ARCH__=6 -march=armv6 -mtune=arm1136j-s -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(battery)"  -D"KBUILD_MODNAME=KBUILD_STR(battery)" -c -o /home/pi/syshw/BA/.tmp_battery.o /home/pi/syshw/BA/battery.c
 
-source_/home/pi/hw/pro/BA/battery.o := /home/pi/hw/pro/BA/battery.c
+source_/home/pi/syshw/BA/battery.o := /home/pi/syshw/BA/battery.c
 
-deps_/home/pi/hw/pro/BA/battery.o := \
+deps_/home/pi/syshw/BA/battery.o := \
   include/linux/sched.h \
     $(wildcard include/config/sched/debug.h) \
     $(wildcard include/config/prove/rcu.h) \
@@ -588,6 +588,6 @@ deps_/home/pi/hw/pro/BA/battery.o := \
   arch/arm/include/asm/uaccess.h \
     $(wildcard include/config/have/efficient/unaligned/access.h) \
 
-/home/pi/hw/pro/BA/battery.o: $(deps_/home/pi/hw/pro/BA/battery.o)
+/home/pi/syshw/BA/battery.o: $(deps_/home/pi/syshw/BA/battery.o)
 
-$(deps_/home/pi/hw/pro/BA/battery.o):
+$(deps_/home/pi/syshw/BA/battery.o):
