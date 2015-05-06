@@ -21,8 +21,9 @@ int chr_open(struct inode *inode, struct file *filp){
 }
 
 ssize_t chr_write(struct file *filp, const char *buf, size_t count, loff_t *f_pos){
-	
-	printk("write data: %s\n", buf);	//application write();
+
+
+	printk(KERN_INFO "write data: %s\n", buf);	//application write();
 	return count;				
 }	
 

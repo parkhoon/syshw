@@ -1,8 +1,8 @@
-cmd_/home/pi/hw/2we/chr_dev.o := gcc -Wp,-MD,/home/pi/hw/2we/.chr_dev.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/4.8/include -I./arch/arm/include -Iarch/arm/include/generated  -Iinclude -I./arch/arm/include/uapi -Iarch/arm/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-bcm2708/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp -funwind-tables -marm -D__LINUX_ARM_ARCH__=6 -march=armv6 -mtune=arm1136j-s -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(chr_dev)"  -D"KBUILD_MODNAME=KBUILD_STR(chr_dev)" -c -o /home/pi/hw/2we/.tmp_chr_dev.o /home/pi/hw/2we/chr_dev.c
+cmd_/home/pi/syshw/2we/chr_dev.o := gcc -Wp,-MD,/home/pi/syshw/2we/.chr_dev.o.d  -nostdinc -isystem /usr/lib/gcc/arm-linux-gnueabihf/4.8/include -I./arch/arm/include -Iarch/arm/include/generated  -Iinclude -I./arch/arm/include/uapi -Iarch/arm/include/generated/uapi -I./include/uapi -Iinclude/generated/uapi -include ./include/linux/kconfig.h -D__KERNEL__ -mlittle-endian -Iarch/arm/mach-bcm2708/include -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -Werror-implicit-function-declaration -Wno-format-security -std=gnu89 -fno-dwarf2-cfi-asm -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=aapcs-linux -mno-thumb-interwork -mfpu=vfp -funwind-tables -marm -D__LINUX_ARM_ARCH__=6 -march=armv6 -mtune=arm1136j-s -msoft-float -Uarm -fno-delete-null-pointer-checks -O2 --param=allow-store-data-races=0 -Wframe-larger-than=1024 -fno-stack-protector -Wno-unused-but-set-variable -fno-omit-frame-pointer -fno-optimize-sibling-calls -fno-var-tracking-assignments -pg -Wdeclaration-after-statement -Wno-pointer-sign -fno-strict-overflow -fconserve-stack -Werror=implicit-int -Werror=strict-prototypes -DCC_HAVE_ASM_GOTO  -DMODULE  -D"KBUILD_STR(s)=\#s" -D"KBUILD_BASENAME=KBUILD_STR(chr_dev)"  -D"KBUILD_MODNAME=KBUILD_STR(chr_dev)" -c -o /home/pi/syshw/2we/.tmp_chr_dev.o /home/pi/syshw/2we/chr_dev.c
 
-source_/home/pi/hw/2we/chr_dev.o := /home/pi/hw/2we/chr_dev.c
+source_/home/pi/syshw/2we/chr_dev.o := /home/pi/syshw/2we/chr_dev.c
 
-deps_/home/pi/hw/2we/chr_dev.o := \
+deps_/home/pi/syshw/2we/chr_dev.o := \
   include/linux/module.h \
     $(wildcard include/config/sysfs.h) \
     $(wildcard include/config/modules.h) \
@@ -469,6 +469,6 @@ deps_/home/pi/hw/2we/chr_dev.o := \
   include/linux/kmemleak.h \
     $(wildcard include/config/debug/kmemleak.h) \
 
-/home/pi/hw/2we/chr_dev.o: $(deps_/home/pi/hw/2we/chr_dev.o)
+/home/pi/syshw/2we/chr_dev.o: $(deps_/home/pi/syshw/2we/chr_dev.o)
 
-$(deps_/home/pi/hw/2we/chr_dev.o):
+$(deps_/home/pi/syshw/2we/chr_dev.o):

@@ -18,16 +18,15 @@ MODULE_LICENSE("GPL");
 #define PROCFS_TESTLEVEL        "battery_test"
 #define PROCFS_NOTIFYPID        "battery_notify"
 #define PROCFS_THRESHOLD        "battery_threshold"
-#define TRUE	1
-#define FALSE 0
 
+#define CHR_DEV_NAME "battery_driver_test"
+#define CHR_DEV_MAJOR 240
 
 /* Declaration of variables used in this module */
 
 static int level = 99;
 static int test_level = 0;                      //indicates level of battery remain.
-static int oldest_level = 0;
-static int already_alert= FALSE;
+static int pre_level = -1;
 static int notify_pid = -1;
 static int threshold = -1;
 /* End of declaration */
@@ -48,6 +47,10 @@ static struct proc_dir_entry *notify_entry;
 static char threshold_buffer[PROCFS_MAX_SIZE];     
 static unsigned long threshold_buffer_size = 0;    //size of receive side buffer
 static struct proc_dir_entry *threshold_entry;
+
+static char driver_buffer[PROCFS_MAX_SIZE];
+static unsigned long driver_buffer_size =0;
+
 
 /* End of declaration */
 
@@ -92,44 +95,28 @@ static int test_level_write( struct file *filp, const char *user_space_buffer, u
         }
         // accept value.
         test_level = requested;
+	
 
 	memset(&info, 0, sizeof(struct siginfo));
-	info.si_signo = SIGUSR1;
 	info.si_code = SI_QUEUE;
-	
-	task = pid_task(find_vpid(notify_pid), PIDTYPE_PID);
-	send_sig_info(SIGUSR1, &info,task);
 
-	/*
-	//first	time
-	if( oldest_level){
-		
-		if( already_alert == FALSE){
-			//task = pid_task(find_vpid(notify_pid), PIDTYPE_PID);
-			//memset(&info, 0, sizeof(struct siginfo));
-			//info.si_code = SI_QUEUE;
-			
-			//decrease	
-			if( oldest_level - test_level < 0){
-				//signal to user "going to saving mode"
-				//info.si_signo = SIGUSR1;
-				//send_sig_info(SIGUSR1, &info, task);	
-			}	
-			//increase
-			else{
-				//signal to user "going to normal mode"
-				//info.si_signo = SIGUSR2;
-				//send_sig_info(SIGUSR2, &info, task);	
-			}
-			
-			already_alert == TRUE;
+	rcu_read_lock();	
+	task = pid_task(find_vpid(notify_pid), PIDTYPE_PID);
+	rcu_read_unlock();
+	
+
+	if( pre_level !=-1){
+		if ( pre_level > threshold && test_level <= threshold ){
+			info.si_signo = SIGUSR1;
+			send_sig_info(SIGUSR1, &info, task);
 		}
-			
-	}	
-	else{
-		oldest_level = test_level ;
+		else if( pre_level <= threshold && test_level > threshold ){
+			info.si_signo =SIGUSR2;
+			send_sig_info(SIGUSR2, &info, task);
+		}
 	}
-	*/
+	pre_level = test_level;
+
         return procfs_buffer_size;
 }
 
@@ -209,9 +196,20 @@ static int notify_read( struct file *filp, char *user_space_buffer, size_t count
 
         if(*off < 0) *off = 0;
 
+	//check test
+	struct siginfo info;
+	struct task_struct* task = NULL;
+
         snprintf(notify_buffer, 16, "%d\n", notify_pid);
         notify_buffer_size = strlen(notify_buffer);
-
+	
+	//check test
+	memset(&info, 0, sizeof(struct siginfo));
+	info.si_signo = SIGUSR1;
+	info.si_code = SI_QUEUE;
+	
+	task = pid_task(find_vpid(notify_pid), PIDTYPE_PID);
+	send_sig_info(SIGUSR1,&info,task);	
 
         if(*off > notify_buffer_size){
                 return -EFAULT;
@@ -300,6 +298,56 @@ static int threshold_read( struct file *filp, char *user_space_buffer, size_t co
         return ret;
 }
 
+int chr_open(struct inode *inode, struct file *filp){
+	int number = MINOR(inode ->i_rdev);
+	printk("Chracter Device (Battery_Test) Open : Minor Number is %d\n",number);
+	return 0;
+}
+
+ssize_t chr_read(struct file *filp, const char *buf, size_t count, loff_t *f_pos){
+
+        //int ret = 0;
+        //int flag = 0;
+
+        //if(*off < 0) *off = 0;
+
+        snprintf(buf, 16, "%d\n", test_level);
+        
+	/*driver_buffer_size = strlen(driver_buffer);
+
+        if(*off > driver_buffer_size){
+                return -EFAULT;
+        }else if(*off == driver_buffer_size){
+                return 0;
+        }
+
+        if(driver_buffer_size - *off > count)
+                ret = count;
+        else
+                ret = driver_buffer_size - *off;
+
+       	flag = copy_to_user(user_space_buffer, driver_buffer + (*off), ret);
+
+        if(flag < 0)
+                return -EFAULT;
+
+        *off += ret;
+	*/
+
+}
+int chr_release(struct inode *inode, struct file *filp){
+	printk("Virtual Character Device Release\n");
+	return 0;
+}
+
+struct file_operations chr_fops = {
+	owner : THIS_MODULE,
+	read : chr_read,
+	open : chr_open,
+	release : chr_release,
+};
+
+
 /*
         Configuration of file_operations
 
@@ -323,8 +371,6 @@ static const struct file_operations battery_threshold_fops = {
 };
 
 
-
-
 /*
         This function will be called on initialization of  kernel module
 */
@@ -332,17 +378,22 @@ int init_module(void)
 {
 
         int ret = 0;
+	int registration;
 
         proc_entry = proc_create(PROCFS_TESTLEVEL, 0666, NULL, &my_proc_fops);
  	notify_entry =proc_create(PROCFS_NOTIFYPID,0666,NULL,&battery_notify_fops);	
 	threshold_entry = proc_create(PROCFS_THRESHOLD,0666,NULL, &battery_threshold_fops);
 
-
         if(proc_entry == NULL && notify_entry== NULL && threshold_entry==NULL)
-        {
                 return -ENOMEM;
-        }
-        return ret;
+       	
+	registration = register_chrdev(CHR_DEV_MAJOR,CHR_DEV_NAME, &chr_fops);
+	if ( registration < 0) {
+		printk(KERN_INFO "%d is registration value\n", registration);
+		return registration; 
+	}
+
+	return ret;
 
 }
 
@@ -354,4 +405,5 @@ void cleanup_module(void)
         remove_proc_entry(PROCFS_TESTLEVEL, proc_entry);
         remove_proc_entry(PROCFS_NOTIFYPID, notify_entry);
         remove_proc_entry(PROCFS_THRESHOLD, threshold_entry);
+	unregister_chrdev(CHR_DEV_MAJOR, CHR_DEV_NAME);
 }
