@@ -16,15 +16,15 @@ static void sig_usr(int);
 #define DEVICE_BATTERY_THRESHOLD "/proc/battery_threshold"
 #define MAX_BUF_SIZE 128
 
-void main(int argc, char *argv[]){
-	
+//void main(int argc, char *argv[]){
+void main(){	
 	int deviceNotify, deviceThreshold;
 	char notifyBuf[MAX_BUF_SIZE];
 	char threshBuf[MAX_BUF_SIZE];
-	
+	char threshold[3];		
 	signal(SIGUSR1,sig_usr);
 	signal(SIGUSR2,sig_usr);
-	
+	//scanf("%s",threshold);
 	//To do
 	//1. write pid at procf
 	deviceNotify = open(DEVICE_BATTERY_NOTIFY, O_RDWR | O_NDELAY);
@@ -41,17 +41,24 @@ void main(int argc, char *argv[]){
 	//2. write threshold at procf
 	deviceThreshold =open(DEVICE_BATTERY_THRESHOLD, O_RDWR | O_NDELAY);
 	if( deviceThreshold >= 0){
-		int threshold = atoi(argv[1]);
-		printf(" active threshold and threshold %d\n",threshold);
-		sprintf(threshBuf, "%s", argv[1]);
-		write(deviceThreshold,threshBuf,10);
-		close(deviceThreshold);
+		scanf("%s",threshold);
+		printf(" active threshold and threshold %s\n",threshold);
+		write(deviceThreshold, threshold,10);
+		
+		//int threshold = atoi(argv[1]);
+		//sprintf(threshBuf, "%s", argv[1]);
+		//write(deviceThreshold,threshBuf,10);
+		//close(deviceThreshold);
 	}
 	else
 		perror(" threshold failed\n");
-
-	while(1)
-		;
+	while(1){
+		
+		scanf("%s",threshold);
+		printf(" active threshold and threshold %s\n",threshold);
+		write(deviceThreshold, threshold,10);
+	}
+	close(deviceThreshold);
 	//3. handling SIGUSR1 
 	//4. handling SIGUSR2
 	
