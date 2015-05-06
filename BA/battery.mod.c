@@ -22,11 +22,11 @@ __attribute__((section("__versions"))) = {
 	{ 0x3893979, __VMLINUX_SYMBOL_STR(remove_proc_entry) },
 	{ 0xcfad5dac, __VMLINUX_SYMBOL_STR(__register_chrdev) },
 	{ 0x2a93c723, __VMLINUX_SYMBOL_STR(proc_create_data) },
-	{ 0x2469810f, __VMLINUX_SYMBOL_STR(__rcu_read_unlock) },
-	{ 0x8d522714, __VMLINUX_SYMBOL_STR(__rcu_read_lock) },
 	{ 0x728802b4, __VMLINUX_SYMBOL_STR(send_sig_info) },
+	{ 0x2469810f, __VMLINUX_SYMBOL_STR(__rcu_read_unlock) },
 	{ 0x2bc62e94, __VMLINUX_SYMBOL_STR(pid_task) },
 	{ 0x1194c7d4, __VMLINUX_SYMBOL_STR(find_vpid) },
+	{ 0x8d522714, __VMLINUX_SYMBOL_STR(__rcu_read_lock) },
 	{ 0x67c2fa54, __VMLINUX_SYMBOL_STR(__copy_to_user) },
 	{ 0x97255bdf, __VMLINUX_SYMBOL_STR(strlen) },
 	{ 0xfbc74f64, __VMLINUX_SYMBOL_STR(__copy_from_user) },
@@ -44,4 +44,4 @@ __attribute__((section(".modinfo"))) =
 "depends=";
 
 
-MODULE_INFO(srcversion, "84F56A0D41F961131736E4B");
+MODULE_INFO(srcversion, "E22F97B6050609F31559318");

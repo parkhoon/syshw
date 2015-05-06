@@ -1,3 +1,9 @@
+/*
+
+Kookmin University 
+Computer Science 20103346 Park Hoon
+System Hw 
+*/
 #include <linux/sched.h>
 #include <linux/rcupdate.h>
 #include <linux/module.h>   /* Needed by all modules */
@@ -196,20 +202,8 @@ static int notify_read( struct file *filp, char *user_space_buffer, size_t count
 
         if(*off < 0) *off = 0;
 
-	//check test
-	struct siginfo info;
-	struct task_struct* task = NULL;
-
         snprintf(notify_buffer, 16, "%d\n", notify_pid);
         notify_buffer_size = strlen(notify_buffer);
-	
-	//check test
-	memset(&info, 0, sizeof(struct siginfo));
-	info.si_signo = SIGUSR1;
-	info.si_code = SI_QUEUE;
-	
-	task = pid_task(find_vpid(notify_pid), PIDTYPE_PID);
-	send_sig_info(SIGUSR1,&info,task);	
 
         if(*off > notify_buffer_size){
                 return -EFAULT;
